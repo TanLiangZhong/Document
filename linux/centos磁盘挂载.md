@@ -1,6 +1,6 @@
 ### centos磁盘挂载
 
-####1. 查看所有分区表
+#### 1. 查看所有分区表
 ```
 [root@iZj6chx50rbasf1de8n2flZ /]# fdisk -l
 
@@ -19,7 +19,7 @@ Units = sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 ```
-####2. 格式化分区
+#### 2. 格式化分区
 ```
 [root@iZj6chx50rbasf1de8n2flZ data]# mkfs.ext4 /dev/vdb
 mke2fs 1.42.9 (28-Dec-2013)
@@ -45,7 +45,7 @@ Writing inode tables: done
 Creating journal (32768 blocks): done
 Writing superblocks and filesystem accounting information: done  
 ```
-####3. 挂载分区
+#### 3. 挂载分区
 ```
 [root@iZj6chx50rbasf1de8n2flZ /]# df -h                // 当前只有/dev/vad1/ 挂载在根目录下
 Filesystem      Size  Used Avail Use% Mounted on
@@ -68,7 +68,7 @@ tmpfs           783M     0  783M   0% /run/user/0
 /dev/vdb        493G   73M  467G   1% /data
 
 ```
-####4. 开机自动挂载
+#### 4. 开机自动挂载
 编辑 `/etc/fstab` 在末尾添加
 `
 /dev/vdb (磁盘分区)                     /data   (挂载目录)                ext4 (文件格式)   defaults        1 2
