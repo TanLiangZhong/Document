@@ -88,16 +88,22 @@ public class JKeepSecurityConfig extends WebSecurityConfigurerAdapter {
                     ResultMsg resultMsg;
                     if (e instanceof BadCredentialsException ||
                             e instanceof UsernameNotFoundException) {
+                        // 账户名或者密码输入错误
                         resultMsg = ResultMsg.LOGIN_FAIL_WRONG_PASSWORD;
                     } else if (e instanceof LockedException) {
+                        // 账户被锁定,请联系管理员!
                         resultMsg = ResultMsg.LOGIN_FAIL_LOCKED;
                     } else if (e instanceof CredentialsExpiredException) {
+                        // 登录过期,请重新登录!
                         resultMsg = ResultMsg.LOGIN_FAIL_CREDENTIALS_EXPIRED;
                     } else if (e instanceof AccountExpiredException) {
+                        // 账户过期,请联系管理员!
                         resultMsg = ResultMsg.LOGIN_FAIL_ACCOUNT_EXPIRED;
                     } else if (e instanceof DisabledException) {
+                        // 账户被禁用,请联系管理员!
                         resultMsg = ResultMsg.LOGIN_FAIL_DISABLED;
                     } else {
+                        // 登录失败,请联系管理员!
                         resultMsg = ResultMsg.LOGIN_FAIL;
                     }
                     if (req.getHeader(Common.CSRF_TOKEN_KEY) != null) {
@@ -148,9 +154,9 @@ public class JKeepSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(accessDeniedHandler)
-//                .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-        ;
+                .accessDeniedHandler(accessDeniedHandler) // 访问被拒策略
+                .and().csrf().disable() // 默认启用csrf, 若不需要可以禁用
+            ;
     }
 
     @Override
@@ -355,6 +361,67 @@ public class JKeepAccessDeniedHandler implements AccessDeniedHandler {
 ```
 
 ```java
+package com.ml.jkeep.jpa.system.entity.sys;
+
+import com.ml.jkeep.common.constant.Common;
+import com.ml.jkeep.jpa.system.vo.HrefPermissionVo;
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.*;
+
+/**
+ * 用户身份认证信息 - Entity
+ *
+ * @author 谭良忠
+ * @date 2019/6/20 11:00
+ */
+@Data
+public class UserAuth implements UserDetails {
+
+    private String username;
+    private String password;
+    private Set<HrefPermissionVo> hrefPer = new HashSet<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        hrefPer.forEach(per -> authorities.add(new SimpleGrantedAuthority(per.getCode())));
+        // 默认角色
+        authorities.add(new SimpleGrantedAuthority(Common.ROLE_DEFAULT));
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO 帐户是否过期
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO 帐户是否被冻结
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO 帐户密码是否过期
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // TODO 帐号是否可用
+        return true;
+    }
+}
+
+```
+
+```java
 package com.ml.jkeep.service.system.impl;
 
 import com.ml.jkeep.jpa.system.entity.sys.User;
@@ -397,6 +464,77 @@ public class AuthServiceImpl implements UserDetailsService {
         return userAuth;
     }
 
+}
+
+```
+
+获取当前登录的用户信息
+
+```java
+package com.ml.jkeep.internal.auth;
+
+import com.alibaba.fastjson.JSONObject;
+import com.ml.jkeep.jpa.system.entity.sys.UserAuth;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+/**
+ * 令牌持有者(身份认证相关信息)
+ *
+ * @author 谭良忠
+ * @date 2019/7/17 15:10
+ */
+public class JKeepSecurityContextHolder {
+
+    /**
+     * 获取 sessionId
+     *
+     * @return sessionId
+     */
+    public static String getSessionId() {
+        return getDetails().getString("sessionId");
+    }
+
+    /**
+     * 存储有关身份验证请求的其他详细信息 IP地址 , sessionId 等
+     *
+     * @return {"remoteAddress":"0:0:0:0:0:0:0:1","sessionId":"DECEC3BE2FC3F2D2002624E155939F35"}
+     */
+    public static JSONObject getDetails() {
+        return (JSONObject) SecurityContextHolder.getContext().getAuthentication().getDetails();
+    }
+
+    /**
+     * 获得用户信息
+     *
+     * @return 用户信息
+     */
+    public static UserAuth getUserInfo() {
+        return (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    /**
+     * 是否已经登陆
+     *
+     * @return 是否已经登陆
+     */
+    public static boolean isAuthenticated() {
+        return SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+    }
+
+    /**
+     * 获得用户所持有的角色
+     *
+     * @return 角色集合
+     */
+    public static Set<String> getRoles() {
+        return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication().getAuthorities()).orElse(new ArrayList<>()).stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+    }
 }
 
 ```
