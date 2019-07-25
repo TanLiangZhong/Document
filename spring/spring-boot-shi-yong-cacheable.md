@@ -2,6 +2,8 @@
 
 ### 相关文档：
 
+{% embed url="https://docs.spring.io/spring/docs/5.0.4.BUILD-SNAPSHOT/javadoc-api/org/springframework/cache/annotation/CacheConfig.html" %}
+
 {% embed url="https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-cache/" %}
 
 {% embed url="https://www.cnblogs.com/yueshutong/p/9381540.html" %}

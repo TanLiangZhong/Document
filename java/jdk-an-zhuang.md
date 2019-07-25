@@ -1,20 +1,20 @@
 # JDK安装
 
-## 1. Win 10安装.
+### Win 10安装.
 
 1. [下载地址](https://www.oracle.com/technetwork/cn/java/javase/downloads/index.html)
 2. 双击.exe安装,无脑下一步.
 3. 配置环境变量.
 
-   **2. Linux 安装**
+### Linux 安装
 
-4. 在 opt 目录下新建文件夹：
+1. 在 opt 目录下新建文件夹：
 
    ```text
    sudo mkdir java
    ```
 
-5. 将下载的jdk 解压至刚创建的目录下： 
+2. 将下载的jdk 解压至刚创建的目录下： 
 
    ```text
    tar -zxvf jdk-10.0.1_linux-x64_bin.tar.gz -C /opt/java
@@ -22,7 +22,7 @@
 
    \`\`\`
 
-6. 配置环境
+3. 配置环境
 
    ```text
    sudo vi ~/.bashrc 
@@ -33,6 +33,6 @@
    export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
    ```
 
-7. 输入 source ~/.bashrc 使配置生效
-8. 输入 java -version 
+4. 输入 source ~/.bashrc 使配置生效
+5. 输入 java -version 
 
