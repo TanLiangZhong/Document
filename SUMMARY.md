@@ -8,5 +8,5 @@
 * [Spring](spring/README.md)
   * [SpringData Jpa](spring/springdata-jpa-laern.md)
   * [Spring Security](spring/spring-security-laern.md)
-  * [Spring Boot 使用 Cache](spring/spring-boot-shi-yong-cacheable.md)
+  * [Spring Boot 使用 Cacheable](spring/spring-boot-shi-yong-cacheable.md)
 

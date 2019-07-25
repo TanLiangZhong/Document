@@ -1,4 +1,4 @@
-# Spring Boot 使用 Cache
+# Spring Boot 使用 Cacheable
 
 ### 相关文档：
 
