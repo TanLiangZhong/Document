@@ -563,10 +563,13 @@ public class JKeepSecurityContextHolder {
     <title>Demo</title>
 </head>
 <body>
-    Logged user: <span sec:authentication="name"></span><br/>
-    Roles: <span sec:authentication="principal.authorities"></span>
+    登录名: <span sec:authentication="name"></span><br/>
+    用户所有权限: <span sec:authentication="principal.authorities"></span>
      <div sec:authorize="${hasRole('DEFAULT')}">
-         This will only be displayed if authenticated user has a role computed by the controller.
+         是否是该角色
+     </div>
+     <div sec:authorize="${hasAuthority('DEMO')}">
+         是否有权限
      </div>
 </body>
 ```
