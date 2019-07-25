@@ -4,7 +4,9 @@
 
 {% embed url="https://spring.io/projects/spring-security\#learn" %}
 
-## 1.SpringBoot 整合 Security
+{% embed url="https://www.thymeleaf.org/doc/articles/springsecurity.html" %}
+
+## 1.SpringBoot + Security
 
 ### 1.add Depending
 
@@ -15,7 +17,7 @@
 </dependency>
 ```
 
-### 2.Config
+### 2.Config Code
 
 ```java
 package com.ml.jkeep.internal.auth;
@@ -537,5 +539,35 @@ public class JKeepSecurityContextHolder {
     }
 }
 
+```
+
+## 2. SpringBoot + Thymeleaf + Spring Security
+
+### 1.add Depending
+
+```markup
+<dependency>
+    <groupId>org.thymeleaf.extras</groupId>
+    <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+</dependency>
+```
+
+### 2.示例
+
+```markup
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+</head>
+<body>
+    Logged user: <span sec:authentication="name"></span><br/>
+    Roles: <span sec:authentication="principal.authorities"></span>
+     <div sec:authorize="${hasRole('DEFAULT')}">
+         This will only be displayed if authenticated user has a role computed by the controller.
+     </div>
+</body>
 ```
 
