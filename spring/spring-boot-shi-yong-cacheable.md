@@ -15,7 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
-@EnableCaching
+@EnableCaching // 开启缓存
 @SpringBootApplication
 public class DemoApplication {
     public static void main(String[] args) {
@@ -37,12 +37,25 @@ import java.util.stream.Collectors;
 @Service
 @CacheConfig(cacheNames = "Demo")
 public class DemoService {
-    @Cacheable(key = "#name")
-    public String hrefPermission(Long name) {
-        log.info("测试缓存, userId: {} ", name);
-        return "Hello Cache";
+        @Cacheable(key = "'DEMO'")
+    public String demoCacheable(String name) {
+        log.info("demoCacheable: {}", name);
+        return "Hello " + name;
+    }
+
+    @CachePut(key = "'DEMO'")
+    public String demoCachePut(String name) {
+        log.info("demoCachePut: {}", name);
+        return "Hello " + name;
+    }
+    
+    @CacheEvict(key = "'DEMO'")
+    public String demoCacheEvict(String name) {
+        log.info("demoCacheEvict: {}", name);
+        return "Hello " + name;
     }
 }
-
 ```
+
+### 注意: 内部调用时 @Cacheable、@CachePut、 @CacheEvict 均会失效
 
