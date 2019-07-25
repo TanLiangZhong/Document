@@ -1,12 +1,18 @@
-### [Spring Data JPA Document](https://spring.io/projects/spring-data-jpa)
-### 1. add Depending
-```xml
+# SpringData Jpa
+
+## [Spring Data JPA Document](https://spring.io/projects/spring-data-jpa)
+
+## 1. add Depending
+
+```markup
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-data-jpa</artifactId>
 </dependency>
 ```
-### 2. add Entity
+
+## 2. add Entity
+
 ```java
 @Data
 @ToString
@@ -46,10 +52,11 @@ public class Anime extends BaseEntity {
 
 }
 ```
-> JPA主键生策略 `AUTO` `IDENTITY` `SEQUENCE` `TABLE`，
->  推荐使用 `TABLE` 主键生成策略。它是在不影响性能情况下，通用性最强的JPA主键生策略
 
-### 3. add Repostiory
+> JPA主键生策略 `AUTO` `IDENTITY` `SEQUENCE` `TABLE`， 推荐使用 `TABLE` 主键生成策略。它是在不影响性能情况下，通用性最强的JPA主键生策略
+
+## 3. add Repostiory
+
 ```java
 @Repository
 public interface AnimeRepository extends JpaRepository<Anime, Long> {
@@ -57,7 +64,8 @@ public interface AnimeRepository extends JpaRepository<Anime, Long> {
 }
 ```
 
-### 4. add Config
+## 4. add Config
+
 ```yaml
 spring:
   # 指定数据源
@@ -89,7 +97,10 @@ spring:
   main:
     allow-bean-definition-overriding: true
 ```
-### 4. docker-install-Mysql
-```
+
+## 4. docker-install-Mysql
+
+```text
 1. docker run -p 3306:3306 --name ml-mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
 ```
+

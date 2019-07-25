@@ -1,7 +1,8 @@
-### centos磁盘挂载
+# centos磁盘挂载
 
-#### 1. 查看所有分区表
-```
+## 1. 查看所有分区表
+
+```text
 [root@iZj6chx50rbasf1de8n2flZ /]# fdisk -l
 
 Disk /dev/vda: 64.4 GB, 64424509440 bytes, 125829120 sectors
@@ -19,8 +20,10 @@ Units = sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 ```
-#### 2. 格式化分区
-```
+
+## 2. 格式化分区
+
+```text
 [root@iZj6chx50rbasf1de8n2flZ data]# mkfs.ext4 /dev/vdb
 mke2fs 1.42.9 (28-Dec-2013)
 Filesystem label=
@@ -36,17 +39,19 @@ Maximum filesystem blocks=2279604224
 32768 blocks per group, 32768 fragments per group
 8192 inodes per group
 Superblock backups stored on blocks: 
-	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
-	4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968, 
-	102400000
+    32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+    4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968, 
+    102400000
 
 Allocating group tables: done                            
 Writing inode tables: done                            
 Creating journal (32768 blocks): done
-Writing superblocks and filesystem accounting information: done  
+Writing superblocks and filesystem accounting information: done
 ```
-#### 3. 挂载分区
-```
+
+## 3. 挂载分区
+
+```text
 [root@iZj6chx50rbasf1de8n2flZ /]# df -h                // 当前只有/dev/vad1/ 挂载在根目录下
 Filesystem      Size  Used Avail Use% Mounted on
 /dev/vda1        59G  2.9G   54G   6% /
@@ -66,14 +71,13 @@ tmpfs           3.9G  472K  3.9G   1% /run
 tmpfs           3.9G     0  3.9G   0% /sys/fs/cgroup
 tmpfs           783M     0  783M   0% /run/user/0
 /dev/vdb        493G   73M  467G   1% /data
+```
 
-```
-#### 4. 开机自动挂载
-编辑 `/etc/fstab` 在末尾添加
-`
-/dev/vdb (磁盘分区)                     /data   (挂载目录)                ext4 (文件格式)   defaults        1 2
-`
-```
+## 4. 开机自动挂载
+
+编辑 `/etc/fstab` 在末尾添加 `/dev/vdb (磁盘分区) /data (挂载目录) ext4 (文件格式) defaults 1 2`
+
+```text
 [root@iZj6chx50rbasf1de8n2flZ /]# vi /etc/fstab 
 
 # /etc/fstab
@@ -85,3 +89,4 @@ tmpfs           783M     0  783M   0% /run/user/0
 UUID=ed95c595-4813-480e-992b-85b1347842e8 /                       ext4    defaults        1 1
 /dev/vdb                                  /data                   ext4    defaults        1 2
 ```
+
