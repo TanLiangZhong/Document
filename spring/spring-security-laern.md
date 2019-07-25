@@ -155,7 +155,7 @@ public class JKeepSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler) // 访问被拒策略
-                .and().csrf().disable() // 默认启用csrf, 若不需要可以禁用
+                // .and().csrf().disable() // 默认启用csrf, 若不需要可以禁用
             ;
     }
 
