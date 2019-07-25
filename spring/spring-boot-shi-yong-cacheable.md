@@ -37,18 +37,19 @@ import java.util.stream.Collectors;
 @Service
 @CacheConfig(cacheNames = "Demo")
 public class DemoService {
-        @Cacheable(key = "'DEMO'")
+    // 缓存
+    @Cacheable(key = "'DEMO'")
     public String demoCacheable(String name) {
         log.info("demoCacheable: {}", name);
         return "Hello " + name;
     }
-
+    // 更新
     @CachePut(key = "'DEMO'")
     public String demoCachePut(String name) {
         log.info("demoCachePut: {}", name);
         return "Hello " + name;
     }
-    
+    // 清除
     @CacheEvict(key = "'DEMO'")
     public String demoCacheEvict(String name) {
         log.info("demoCacheEvict: {}", name);
