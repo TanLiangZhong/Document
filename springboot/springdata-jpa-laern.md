@@ -1,6 +1,8 @@
 # Spring Data Jpa
 
-### [Spring Data JPA Document](https://spring.io/projects/spring-data-jpa)
+### 相关文档:
+
+{% embed url="https://spring.io/projects/spring-data-jpa\#learn" %}
 
 ### 1. add Depending
 
