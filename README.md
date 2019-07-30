@@ -1,5 +1,5 @@
 ---
-description: 盖人生在世，富贵不能移，贫贱不能欺；
+description: 人生在世，富贵不能移，贫贱不能欺；
 ---
 
 # Home
