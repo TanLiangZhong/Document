@@ -14,3 +14,7 @@
 * [DevOps](devops/README.md)
   * [Jenkins](devops/jenkins.md)
 
+## Software design ideas
+
+* [设计原则](software-design-ideas/she-ji-yuan-ze.md)
+
